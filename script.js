@@ -56,7 +56,7 @@ const createCard = (data, index) => {
         </div>
     </div>
     `;
-
+    // Each card has this event listener attached
     card.addEventListener('click', () => card.classList.toggle('show-answer'));
 
     // Push to array of cards and append to DOM
@@ -71,3 +71,22 @@ const updateCurrentText = () => {
 };
 
 createCards();
+
+// Event Listeners
+nextBtn.addEventListener('click', () => {
+    cardsEl[currentActiveCard].className = 'card left';
+
+    currentActiveCard < cardsEl.length - 1 && currentActiveCard++;
+
+    cardsEl[currentActiveCard].className = 'card active';
+    updateCurrentText();
+});
+
+prevBtn.addEventListener('click', () => {
+    cardsEl[currentActiveCard].className = 'card right';
+
+    currentActiveCard > 0 && currentActiveCard--;
+
+    cardsEl[currentActiveCard].className = 'card active';
+    updateCurrentText();
+});
