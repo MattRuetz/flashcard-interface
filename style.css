@@ -28,6 +28,7 @@ h1 button {
 }
 
 .btn {
+    cursor: pointer;
     background-color: #fff;
     border: 1px solid #aaa;
     border-radius: 3px;
@@ -117,6 +118,7 @@ h1 button {
 }
 
 .inner-card-back {
+    background-color: rgba(169, 245, 192, 0.3);
     transform: rotateX(180deg);
 }
 
@@ -129,7 +131,7 @@ h1 button {
     right: 10px;
     font-weight: bold;
     font-size: 16px;
-    color: #ddd;
+    opacity: 50%;
 }
 
 .navigation {

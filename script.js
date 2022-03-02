@@ -16,28 +16,22 @@ let currentActiveCard = 0;
 // Store DOM elements
 const cardsEl = [];
 
-const cardData = [
-    {
-        question: 'Capitol city of Canada',
-        answer: 'Ottawa',
-    },
-    {
-        question: 'T/F: sky == blue',
-        answer: 'True',
-    },
-    {
-        question: 'T/F: School is a waste of time and money',
-        answer: 'True',
-    },
-    {
-        question: 'What is needed to live a free life?',
-        answer: 'Nothing',
-    },
-];
+// Get saved cards from localStorage
+const getCardsData = () => {
+    const cards = JSON.parse(localStorage.getItem('cards'));
+    return cards === null ? [] : cards;
+};
+
+const cardsData = getCardsData();
 
 // Create all card DOM elements
 const createCards = () => {
-    cardData.forEach((data, index) => createCard(data, index));
+    cardsData.forEach((data, index) => createCard(data, index));
+};
+
+const setCardsData = (cards) => {
+    localStorage.setItem('cards', JSON.stringify(cards));
+    window.location.reload();
 };
 
 // Create individual card DOM elements
@@ -72,7 +66,8 @@ const updateCurrentText = () => {
 
 createCards();
 
-// Event Listeners
+// ------------ Event Listeners ------------
+// Nav to next, no overflow allowed
 nextBtn.addEventListener('click', () => {
     cardsEl[currentActiveCard].className = 'card left';
 
@@ -81,7 +76,7 @@ nextBtn.addEventListener('click', () => {
     cardsEl[currentActiveCard].className = 'card active';
     updateCurrentText();
 });
-
+// Nav to prev, no overflow
 prevBtn.addEventListener('click', () => {
     cardsEl[currentActiveCard].className = 'card right';
 
@@ -89,4 +84,36 @@ prevBtn.addEventListener('click', () => {
 
     cardsEl[currentActiveCard].className = 'card active';
     updateCurrentText();
+});
+
+// Show ADD container
+showBtn.addEventListener('click', () => addContainer.classList.add('show'));
+// Hide ADD container
+hideBtn.addEventListener('click', () => addContainer.classList.remove('show'));
+
+// Add new card
+addCardBtn.addEventListener('click', () => {
+    const question = questionEl.value;
+    const answer = answerEl.value;
+
+    if (question.trim() && answer.trim()) {
+        const newCard = { question, answer };
+
+        createCard(newCard);
+
+        questionEl.value = '';
+        answerEl.value = '';
+
+        addContainer.classList.remove('show');
+        cardsData.push(newCard);
+
+        setCardsData(cardsData);
+    }
+});
+
+// Clear Cards Btn
+clearBtn.addEventListener('click', () => {
+    localStorage.clear();
+    cardsContainer.innerHTML = '';
+    window.location.reload();
 });
